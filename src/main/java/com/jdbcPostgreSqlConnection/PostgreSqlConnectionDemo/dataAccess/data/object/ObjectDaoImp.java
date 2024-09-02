@@ -1,13 +1,11 @@
-package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.list;
-import ch.qos.logback.core.joran.spi.ElementSelector;
+package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.casting.CastingService;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.connection.ConnectionService;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.Tables;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.enums.Tables;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;

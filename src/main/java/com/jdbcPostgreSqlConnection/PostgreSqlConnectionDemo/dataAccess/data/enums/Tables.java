@@ -1,4 +1,4 @@
-package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data;
+package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.enums;
 
 public enum Tables {
     Orders("order_id"),

@@ -1,6 +1,5 @@
-package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.list;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.Tables;
-import org.json.JSONArray;
+package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.enums.Tables;
 import org.json.JSONObject;
 
 import java.sql.SQLException;

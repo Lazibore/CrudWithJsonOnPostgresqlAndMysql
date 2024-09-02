@@ -1,6 +1,6 @@
 package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.order;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.Tables;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.list.ObjectDao;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.enums.Tables;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object.ObjectDao;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
