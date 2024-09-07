@@ -1,15 +1,12 @@
 package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.connection;
-import org.springframework.stereotype.Service;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.DataBase;
+import org.springframework.stereotype.Component;
 import java.sql.*;
 
-@Service
+@Component
 public class ConnectionManager implements ConnectionService {
     private static volatile ConnectionManager connectionManager=null;
     private static volatile Connection conn=null;
-    private static final String url="jdbc:postgresql://localhost:5432/Northwind";
-    private static final String user="postgres";
-    private static final String pwd="*";
-
     private ConnectionManager()
     {
 
@@ -24,21 +21,22 @@ public class ConnectionManager implements ConnectionService {
             }
     }
 
-    public static void setConn()
+    public static void setConn(DataBase dataBase)
     {
         try {
-            conn = DriverManager.getConnection(url,user,pwd);
+
+            conn = DriverManager.getConnection(dataBase.getURL(),dataBase.getUSER_NAME(),dataBase.getPWD());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
     }
-    public static void setConnection()
+    public static void setConnection(DataBase dataBase)
     {
         ConnectionManager.setInstance();
             synchronized (ConnectionManager.class) {
                 if (conn == null) {
-                    ConnectionManager.setConn();
+                    ConnectionManager.setConn(dataBase);
                 }
                 else
                 {
@@ -47,14 +45,14 @@ public class ConnectionManager implements ConnectionService {
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                    ConnectionManager.setConn();
+                    ConnectionManager.setConn(dataBase);
                 }
             }
     }
 
       @Override
-    public PreparedStatement getPreparedStatement(String query) {
-        ConnectionManager.setConnection();
+    public PreparedStatement getPreparedStatement(String query,DataBase dataBase) {
+        ConnectionManager.setConnection(dataBase);
         PreparedStatement preparedStatement =null;
         try {
 
@@ -65,8 +63,8 @@ public class ConnectionManager implements ConnectionService {
         }
     }
     @Override
-    public Statement getStatement(String query) {
-        ConnectionManager.setConnection();
+    public Statement getStatement(String query,DataBase dataBase) {
+        ConnectionManager.setConnection(dataBase);
         Statement statement =null;
         try {
             statement = conn.createStatement();

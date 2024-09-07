@@ -1,11 +1,11 @@
 package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.casting.CastingService;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.core.casting.CastingService;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.connection.ConnectionService;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.enums.Tables;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.DataBase;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.Tables;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Repository
 public class ObjectDaoImp implements ObjectDao {
 
     private CastingService castingService;
@@ -27,9 +27,9 @@ public class ObjectDaoImp implements ObjectDao {
     }
 
     @Override
-    public Map<String,Object> getObjectById(Object id,Tables tableName) {
+    public Map<String,Object> getObjectById(Object id, Tables tableName, DataBase dataBase) {
         String getObjectByIdQuery="select * from " + tableName.name() + " where " +tableName.getPrimaryKey() + "= ?";
-        PreparedStatement preparedStatement = connectionService.getPreparedStatement(getObjectByIdQuery);
+        PreparedStatement preparedStatement = connectionService.getPreparedStatement(getObjectByIdQuery,dataBase);
         ResultSet resultSet;
         Map<String,Object> object=null;
 
@@ -57,8 +57,8 @@ public class ObjectDaoImp implements ObjectDao {
     }
 
     @Override
-    public List getObjectsAsMap(String query) {
-        Statement statement = connectionService.getStatement(query);
+    public List getObjectsAsMap(String query, DataBase dataBase) {
+        Statement statement = connectionService.getStatement(query,dataBase);
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery(query);
@@ -69,12 +69,12 @@ public class ObjectDaoImp implements ObjectDao {
     }
 
     @Override
-    public Object saveObject(JSONObject jsonObject, Tables tableName)  {
+    public Object saveObject(JSONObject jsonObject, Tables tableName,DataBase dataBase )  {
 
         String query=  this.prepareInsertQuery(jsonObject,tableName);
         Object savedObjectId=null;
         PreparedStatement  preparedStatement=
-            getPreparedStatementWithParameter(jsonObject,jsonObject.keys(),query);
+            getPreparedStatementWithParameter(jsonObject,jsonObject.keys(),query,dataBase);
 
         try {
             preparedStatement.executeUpdate();
@@ -103,9 +103,10 @@ public class ObjectDaoImp implements ObjectDao {
 
 
     @Override
-    public int updateObject(JSONObject jsonObject,Tables tableName)  {
+    public int updateObject(JSONObject jsonObject,Tables tableName,DataBase dataBase )  {
         String updateStringQuery= prepareUpdateQuery(jsonObject,tableName);
-        PreparedStatement preparedStatement =  getPreparedStatementWithParameter(jsonObject,jsonObject.keys(),updateStringQuery);
+        PreparedStatement preparedStatement =
+                getPreparedStatementWithParameter(jsonObject,jsonObject.keys(),updateStringQuery,dataBase);
         int rowsAffected;
         try {
             rowsAffected= preparedStatement.executeUpdate();
@@ -165,9 +166,10 @@ public class ObjectDaoImp implements ObjectDao {
 
             return insertQuery.toString();
         }
-    private PreparedStatement getPreparedStatementWithParameter(JSONObject jsonObject,Iterator<String> keysIterator, String query )
+    private PreparedStatement getPreparedStatementWithParameter(JSONObject jsonObject,
+      Iterator<String> keysIterator, String query,DataBase dataBase )
     {
-        PreparedStatement preparedStatement = connectionService.getPreparedStatement(query);
+        PreparedStatement preparedStatement = connectionService.getPreparedStatement(query,dataBase);
         int index = 1;
 
         while (keysIterator.hasNext()) {
@@ -214,10 +216,10 @@ public class ObjectDaoImp implements ObjectDao {
         return preparedStatement;
     }
 
-    public int deleteObjectById(Object id,Tables tableName)
+    public int deleteObjectById(Object id,Tables tableName,DataBase dataBase)
     {
         String deleteObjectByIdQuery="delete from " +tableName.name() +" where "+tableName.getPrimaryKey()+ " = ?";
-        PreparedStatement preparedStatement = connectionService.getPreparedStatement(deleteObjectByIdQuery);
+        PreparedStatement preparedStatement = connectionService.getPreparedStatement(deleteObjectByIdQuery,dataBase);
         int rowsAffected;
         try {
             preparedStatement.setInt(1, (int) id);

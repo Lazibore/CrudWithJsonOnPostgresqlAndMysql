@@ -1,23 +1,27 @@
 package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.order;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.enums.Tables;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.DataBase;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.Tables;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object.ObjectDao;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Repository
 public class OrderRepo implements OrderDao{
+
+    private final DataBase dataBase=DataBase.POSTGRE_SQL;
+    private final Tables table=Tables.Orders;
 
     @Autowired
     private ObjectDao objectDao;
 
     @Override
     public Map<String,Object> getOrderById(Object id) {
-        return objectDao.getObjectById(id, Tables.Orders);
+        return objectDao.getObjectById(id, table,dataBase);
     }
 
     @Override
@@ -29,13 +33,13 @@ public class OrderRepo implements OrderDao{
                 "ord.freight,ord.ship_name," +
                 "ord.ship_country " +
                 "from orders as ord order by ord.order_id desc";
-        return objectDao.getObjectsAsMap(getAllObjectsQuery);
+        return objectDao.getObjectsAsMap(getAllObjectsQuery,dataBase);
     }
 
     @Override
     public Object saveOrder(JSONObject ordr) {
         try {
-          return  objectDao.saveObject(ordr, Tables.Orders);
+          return  objectDao.saveObject(ordr, table,dataBase);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ParseException e) {
@@ -45,11 +49,11 @@ public class OrderRepo implements OrderDao{
 
     @Override
     public int updateOrder(JSONObject jsonObject) {
-       return objectDao.updateObject(jsonObject, Tables.Orders);
+       return objectDao.updateObject(jsonObject, table,dataBase);
     }
 
     @Override
     public int deleteOrderById(int id) {
-        return objectDao.deleteObjectById(id, Tables.Orders);
+        return objectDao.deleteObjectById(id, table,dataBase);
     }
 }
