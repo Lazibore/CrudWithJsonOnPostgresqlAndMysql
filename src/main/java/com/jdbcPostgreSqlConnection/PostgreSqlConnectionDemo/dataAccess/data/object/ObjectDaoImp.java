@@ -75,19 +75,20 @@ public class ObjectDaoImp implements ObjectDao {
         Object savedObjectId=null;
         PreparedStatement  preparedStatement=
             getPreparedStatementWithParameter(jsonObject,jsonObject.keys(),query,dataBase);
-
+             int sayi=0;
         try {
-            preparedStatement.executeUpdate();
+            String primaryKey=tableName.getPrimaryKey();
+             sayi=preparedStatement.executeUpdate();
             ResultSet rs= preparedStatement.getGeneratedKeys();
 
             if (rs.next())
             {
                 try {
-                    savedObjectId = rs.getInt(tableName.getPrimaryKey());
+                    savedObjectId = rs.getInt(primaryKey);
                     }
                 catch (SQLException  e)
                 {
-                    savedObjectId = rs.getString(tableName.getPrimaryKey());
+                    savedObjectId = rs.getString(primaryKey);
                 }
             }
             if(!rs.isClosed()) rs.close();
@@ -96,7 +97,7 @@ public class ObjectDaoImp implements ObjectDao {
             return savedObjectId;
         }
         catch (SQLException e) {
-            return "";
+            return sayi;
         }
 
     }
@@ -121,9 +122,9 @@ public class ObjectDaoImp implements ObjectDao {
     {
         Object primaryKey=jsonObject.get(tableName.getPrimaryKey());
         String primaryKeyType =primaryKey.getClass().getTypeName();
-
         jsonObject.remove(tableName.getPrimaryKey());
         Iterator<String> keys= jsonObject.keys();
+
         StringBuilder keysQueryString=new StringBuilder();
         keysQueryString.append("update ").append(tableName).append(" set ");
         while(keys.hasNext())

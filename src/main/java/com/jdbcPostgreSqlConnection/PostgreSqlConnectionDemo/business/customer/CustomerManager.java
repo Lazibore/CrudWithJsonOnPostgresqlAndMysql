@@ -38,17 +38,17 @@ public class CustomerManager implements CustomerService{
     @Override
     public DataResult<Object> saveCustomer(JSONObject customer) {
         Object savedCustomerId =customerDao.saveCustomer(customer);
-        if (savedCustomerId=="")
+        if (savedCustomerId.equals(0))
         {
-            return new ErrorDataResult<>("Ekleme islemi sirasinda bir hata olustu");
+            return new ErrorDataResult<>("Kaydetme islemi basarisiz");
         }
-        else if(savedCustomerId==null)
+        else if(savedCustomerId.equals(1))
         {
-            return new ErrorDataResult<>("Kaydetme islemini kontrol edin");
+            return new SuccessDataResult<>("Kaydetme islemi yapildi fakat bir terslik var.");
         }
         else
         {
-            return new SuccessDataResult<>(savedCustomerId,"Ekleme islemi basarili");
+            return new SuccessDataResult<>(savedCustomerId,"Kaydetme islemi basarili");
         }
     }
 

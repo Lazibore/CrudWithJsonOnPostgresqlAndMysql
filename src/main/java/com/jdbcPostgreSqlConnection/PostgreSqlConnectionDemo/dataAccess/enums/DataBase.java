@@ -5,7 +5,7 @@ public enum DataBase {
             "postgres", "*", "Northwind"),
 
     MYSQL("jdbc:mysql://localhost:3306/",
-            "root", "*", "Northwind");
+            "root", "*", "northwind");
 
     private final String URL;
     private final String USER_NAME;

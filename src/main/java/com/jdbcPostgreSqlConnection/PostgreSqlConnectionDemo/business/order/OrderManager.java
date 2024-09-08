@@ -39,17 +39,17 @@ public class OrderManager implements OrderService{
     @Override
     public DataResult<Object> saveOrder(JSONObject order) {
         Object savedOrderId =orderDao.saveOrder(order);
-        if (savedOrderId=="")
+        if (savedOrderId.equals(0))
         {
-            return new ErrorDataResult<>("Ekleme islemi sirasinda bir hata olustu");
+            return new ErrorDataResult<>("Kaydetme islemi basarisiz");
         }
-        else if(savedOrderId==null)
+        else if(savedOrderId.equals(1))
         {
-            return new ErrorDataResult<>("Kaydetme islemini kontrol edin");
+            return new SuccessDataResult<>("Kaydetme islemi yapildi fakat bir terslik var.");
         }
         else
         {
-            return new SuccessDataResult<>(savedOrderId,"Ekleme islemi basarili");
+            return new SuccessDataResult<>(savedOrderId,"Kaydetme islemi basarili");
         }
     }
 

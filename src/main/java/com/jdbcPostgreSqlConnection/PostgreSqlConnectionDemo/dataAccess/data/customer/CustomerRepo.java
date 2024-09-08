@@ -13,8 +13,9 @@ import java.util.Map;
 @Repository
 public class CustomerRepo implements CustomerDao{
 
-    private final DataBase dataBase=DataBase.POSTGRE_SQL;
+    private final DataBase dataBase=DataBase.MYSQL;
     private final Tables table=Tables.Customers;
+
     @Autowired
     private ObjectDao objectDao;
 

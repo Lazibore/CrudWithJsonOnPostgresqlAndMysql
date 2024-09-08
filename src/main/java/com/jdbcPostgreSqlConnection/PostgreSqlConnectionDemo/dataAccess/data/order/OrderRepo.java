@@ -23,19 +23,16 @@ public class OrderRepo implements OrderDao{
     public Map<String,Object> getOrderById(Object id) {
         return objectDao.getObjectById(id, table,dataBase);
     }
-
     @Override
     public  List<Map<String,Object>> getAllOrders() {
-        String getAllObjectsQuery=
-                "select ord.order_id, " +
-                "ord.customer_id," +
-                "ord.employee_id,ord.shipped_date, " +
-                "ord.freight,ord.ship_name," +
-                "ord.ship_country " +
-                "from orders as ord order by ord.order_id desc";
-        return objectDao.getObjectsAsMap(getAllObjectsQuery,dataBase);
+        StringBuilder getAllObjectsQuery=new StringBuilder("select ord.order_id, ");
+        getAllObjectsQuery.append("ord.customer_id,");
+        getAllObjectsQuery.append( "ord.employee_id,ord.shipped_date, " );
+        getAllObjectsQuery.append("ord.freight,ord.ship_name,");
+        getAllObjectsQuery.append("ord.ship_country ");
+        getAllObjectsQuery.append("from orders as ord order by ord.order_id desc");
+        return objectDao.getObjectsAsMap(getAllObjectsQuery.toString(),dataBase);
     }
-
     @Override
     public Object saveOrder(JSONObject ordr) {
         try {
