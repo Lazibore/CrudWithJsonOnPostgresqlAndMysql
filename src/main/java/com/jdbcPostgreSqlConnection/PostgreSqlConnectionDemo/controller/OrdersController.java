@@ -36,7 +36,7 @@ public class OrdersController {
         return ResponseEntity.ok(orderService.saveOrder(order));
     }
 
-    @PostMapping("updateorder")
+    @PutMapping("updateorder")
     public ResponseEntity<Result> updateOrder(@RequestBody String jsonUpdateString)
     {
         JSONObject order=new JSONObject(jsonUpdateString);

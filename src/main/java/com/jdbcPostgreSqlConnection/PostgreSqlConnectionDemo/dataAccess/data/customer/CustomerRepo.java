@@ -22,6 +22,7 @@ public class CustomerRepo implements CustomerDao{
     @Override
     public Map<String, Object> getCustomerById(Object id) {
         return objectDao.getObjectById(id,table,dataBase);
+
     }
 
     @Override

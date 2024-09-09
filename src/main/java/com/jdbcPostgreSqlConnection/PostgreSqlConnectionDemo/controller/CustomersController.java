@@ -38,7 +38,7 @@ public class CustomersController {
         return ResponseEntity.ok(customerService.saveCustomer(customer));
     }
 
-    @PostMapping("updatecustomer")
+    @PutMapping("updatecustomer")
     public ResponseEntity<Result> updateCustomer(@RequestBody String jsonUpdateString)
     {
         JSONObject customer=new JSONObject(jsonUpdateString);
