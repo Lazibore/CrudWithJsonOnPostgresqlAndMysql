@@ -1,7 +1,7 @@
 package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.customer;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.DataBase;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.Tables;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object.ObjectDao;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object.repo.ObjectDao;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,9 +35,7 @@ public class CustomerRepo implements CustomerDao{
     public Object saveCustomer(JSONObject customer) {
         try {
             return  objectDao.saveObject(customer,table,dataBase);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
+        } catch (SQLException | ParseException e) {
             throw new RuntimeException(e);
         }
     }

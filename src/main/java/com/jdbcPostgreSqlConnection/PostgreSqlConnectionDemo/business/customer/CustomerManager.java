@@ -1,5 +1,4 @@
 package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.business.customer;
-
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.core.result.*;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.customer.CustomerDao;
 import org.json.JSONObject;
@@ -16,9 +15,8 @@ public class CustomerManager implements CustomerService{
     public DataResult<Map<String, Object>> getCustomerById(Object id) {
         Map<String, Object> islem=customerDao.getCustomerById(id);
         if(islem==null)
-        {
             return new ErrorDataResult<>("Musteri Bulunamadi");
-        }
+
         return new SuccessDataResult<>(islem,"Islem basarili");
     }
 
@@ -26,30 +24,21 @@ public class CustomerManager implements CustomerService{
     public DataResult<List<Map<String, Object>>> getAllCustomers() {
         List<Map<String,Object>> customers=customerDao.getAllCustomers();
         if (customers==null)
-        {
-            return new ErrorDataResult<>("Musteri bulunamadi.");
-        }
-        else
-        {
+                   return new ErrorDataResult<>("Musteri bulunamadi.");
+               else
             return new SuccessDataResult<>(customers,"Islem basarili");
-        }
     }
 
     @Override
     public DataResult<Object> saveCustomer(JSONObject customer) {
         Object savedCustomerId =customerDao.saveCustomer(customer);
+
         if (savedCustomerId.equals(0))
-        {
             return new ErrorDataResult<>("Kaydetme islemi basarisiz");
-        }
         else if(savedCustomerId.equals(1))
-        {
             return new SuccessDataResult<>("Kaydetme islemi yapildi fakat bir terslik var.");
-        }
         else
-        {
             return new SuccessDataResult<>(savedCustomerId,"Kaydetme islemi basarili");
-        }
     }
 
     @Override

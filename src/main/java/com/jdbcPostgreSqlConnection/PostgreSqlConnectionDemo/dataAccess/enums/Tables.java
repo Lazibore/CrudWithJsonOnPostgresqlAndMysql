@@ -5,7 +5,7 @@ public enum Tables {
     Customers("customer_id"),
     Employees("employee_id");
 
-    private String primaryKey;
+    private final String primaryKey;
 
     Tables(String primaryKey)
     {

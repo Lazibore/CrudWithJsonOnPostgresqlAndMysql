@@ -1,10 +1,11 @@
 package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.connection;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.DataBase;
 import org.springframework.stereotype.Component;
+
 import java.sql.*;
 
 @Component
-public class ConnectionManager implements ConnectionService {
+public class ConnectionManager implements ConnectionService,Runnable {
     private static volatile ConnectionManager connectionManager=null;
     private static volatile Connection conn=null;
     private ConnectionManager()
@@ -23,8 +24,7 @@ public class ConnectionManager implements ConnectionService {
 
     public static void setConn(DataBase dataBase)
     {
-        try {
-
+        try {       
             conn = DriverManager.getConnection(dataBase.getURL(),dataBase.getUSER_NAME(),dataBase.getPWD());
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -74,4 +74,8 @@ public class ConnectionManager implements ConnectionService {
         }
     }
 
+    @Override
+    public void run() {
+
+    }
 }

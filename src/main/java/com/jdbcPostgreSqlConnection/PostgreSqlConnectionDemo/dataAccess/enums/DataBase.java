@@ -20,9 +20,7 @@ public enum DataBase {
     }
 
     public String getURL() {
-        StringBuilder url=new StringBuilder(this.URL);
-        url.append(this.DATABASE_NAME);
-        return url.toString();
+        return  this.URL + this.DATABASE_NAME;
     }
 
     public String getUSER_NAME() {

@@ -7,7 +7,8 @@ import java.util.*;
 @Component
 public class CastingManager implements CastingService {
 
-    public List<Map<String,Object>> resultSetToArrayList(ResultSet rs) {
+
+    public List<Map<String,Object>> resultSetToMapList(ResultSet rs) {
 
         ResultSetMetaData md ;
         List<Map<String,Object>> list;
@@ -28,9 +29,8 @@ public class CastingManager implements CastingService {
             throw new RuntimeException(e);
         }
         return list;
+
     }
-
-
 
 //    public JSONArray getObjectsJsonArray(ResultSet resultSet) {
 //        JSONArray jsonArray = new JSONArray();
@@ -42,6 +42,7 @@ public class CastingManager implements CastingService {
 //                        try {
 //                            return md.getColumnName(i + 1);
 //                        } catch (SQLException e) {
+//
 //                            e.printStackTrace();
 //                            return "?";
 //                        }

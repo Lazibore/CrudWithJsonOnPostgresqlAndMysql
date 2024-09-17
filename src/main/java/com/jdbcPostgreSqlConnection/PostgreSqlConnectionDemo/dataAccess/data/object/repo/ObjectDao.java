@@ -1,4 +1,4 @@
-package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object;
+package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.object.repo;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.DataBase;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.enums.Tables;
 import org.json.JSONObject;
