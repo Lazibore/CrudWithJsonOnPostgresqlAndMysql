@@ -13,20 +13,20 @@ public class CustomerManager implements CustomerService{
     private CustomerDao customerDao;
     @Override
     public DataResult<Map<String, Object>> getCustomerById(Object id) {
-        Map<String, Object> islem=customerDao.getCustomerById(id);
-        if(islem==null)
-            return new ErrorDataResult<>("Musteri Bulunamadi");
+        Map<String, Object> customer=customerDao.getCustomerById(id);
+        if(customer==null)
+            return new ErrorDataResult<>("Customer not found");
 
-        return new SuccessDataResult<>(islem,"Islem basarili");
+        return new SuccessDataResult<>(customer,"Customer found");
     }
 
     @Override
     public DataResult<List<Map<String, Object>>> getAllCustomers() {
         List<Map<String,Object>> customers=customerDao.getAllCustomers();
         if (customers==null)
-                   return new ErrorDataResult<>("Musteri bulunamadi.");
+                   return new ErrorDataResult<>("Customer not found");
                else
-            return new SuccessDataResult<>(customers,"Islem basarili");
+            return new SuccessDataResult<>(customers,"Customer listed");
     }
 
     @Override
@@ -34,11 +34,9 @@ public class CustomerManager implements CustomerService{
         Object savedCustomerId =customerDao.saveCustomer(customer);
 
         if (savedCustomerId.equals(0))
-            return new ErrorDataResult<>("Kaydetme islemi basarisiz");
-        else if(savedCustomerId.equals(1))
-            return new SuccessDataResult<>("Kaydetme islemi yapildi fakat bir terslik var.");
+            return new ErrorDataResult<>("Not saved");
         else
-            return new SuccessDataResult<>(savedCustomerId,"Kaydetme islemi basarili");
+            return new SuccessDataResult<>(savedCustomerId,"Saved successfully");
     }
 
     @Override
@@ -47,12 +45,12 @@ public class CustomerManager implements CustomerService{
         String message;
         if (rowsAffected ==0)
         {
-            message="Guncelleme islemi basarisiz.";
+            message="Not updated";
             return new ErrorResult(message);
         }
         else
         {
-            message="Basariyla guncellendi";
+            message="Updated successfuly";
             return new SuccesResult(message);
         }
     }
@@ -63,12 +61,12 @@ public class CustomerManager implements CustomerService{
         String message;
         if (rowsAffected ==0)
         {
-            message="Silme islemi basarisiz.";
+            message="Not deleted";
             return new ErrorResult(message);
         }
         else
         {
-            message="Silindi.";
+            message="Customer deleted";
             return new SuccesResult(message);
         }
     }

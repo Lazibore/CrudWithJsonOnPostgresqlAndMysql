@@ -45,7 +45,4 @@ public class CustomersController {
         return ResponseEntity.ok(customerService.updateCustomer(customer));
     }
 
-
-
-
 }

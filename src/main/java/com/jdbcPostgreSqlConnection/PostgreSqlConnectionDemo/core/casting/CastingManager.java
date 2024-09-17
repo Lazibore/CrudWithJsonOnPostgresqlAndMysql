@@ -7,9 +7,7 @@ import java.util.*;
 @Component
 public class CastingManager implements CastingService {
 
-
     public List<Map<String,Object>> resultSetToMapList(ResultSet rs) {
-
         ResultSetMetaData md ;
         List<Map<String,Object>> list;
         try {
@@ -31,82 +29,4 @@ public class CastingManager implements CastingService {
         return list;
 
     }
-
-//    public JSONArray getObjectsJsonArray(ResultSet resultSet) {
-//        JSONArray jsonArray = new JSONArray();
-//        try {
-//            ResultSetMetaData md = resultSet.getMetaData();
-//            int numCols = md.getColumnCount();
-//            List<String> colNames = IntStream.range(0, numCols)
-//                    .mapToObj(i -> {
-//                        try {
-//                            return md.getColumnName(i + 1);
-//                        } catch (SQLException e) {
-//
-//                            e.printStackTrace();
-//                            return "?";
-//                        }
-//                    })
-//                    .toList();
-//
-//            while (resultSet.next()) {
-//                JSONObject row = new JSONObject();
-//                colNames.forEach(cn -> {
-//                    try {
-//                        row.put(cn, resultSet.getObject(cn));
-//                    } catch (JSONException | SQLException e) {
-//                        e.printStackTrace();
-//                    }
-//                });
-//                jsonArray.put(row);
-//            }
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return jsonArray;
-//    }
-
-//    public JSONArray getObjectList(ResultSet resultSet) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        List Tlist= null;
-//        try {
-//            Tlist = objectMapper.readValue(getObjectJsonArray(resultSet).toString(), new TypeReference<List<T>>(){});
-//        } catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return Tlist;
-//    }
-//    public Map<String, Object> toMap(JSONObject object) throws JSONException {
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        Iterator<String> keysItr = object.keys();
-//        while(keysItr.hasNext()) {
-//            String key = keysItr.next();
-//            Object value = object.get(key);
-//
-//            if(value instanceof JSONArray) {
-//                value = toList((JSONArray) value);
-//            }
-//            else if(value instanceof JSONObject) {
-//                value = toMap((JSONObject) value);
-//            }
-//            map.put(key, value);
-//        }
-//        return map;
-//    }
-//    public List<Object> toList(JSONArray array) throws JSONException {
-//        List<Object> list = new ArrayList<>();
-//        for(int i = 0; i < array.length(); i++) {
-//            Object value = array.get(i);
-//            if(value instanceof JSONArray) {
-//                value = toList((JSONArray) value);
-//            }
-//            else if(value instanceof JSONObject) {
-//                value = toMap((JSONObject) value);
-//            }
-//            list.add(value);
-//        }
-//        return list;
-//    }
-
 }

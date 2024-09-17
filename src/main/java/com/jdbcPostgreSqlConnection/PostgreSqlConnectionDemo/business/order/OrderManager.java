@@ -24,26 +24,26 @@ public class OrderManager implements OrderService{
     public Future<DataResult<Map<String, Object>>> getOrderById(Object id)
     {
         return executorService.submit(()->{
-            Map<String, Object> islem=orderDao.getOrderById(id);
-            if(islem==null)
+            Map<String, Object> order=orderDao.getOrderById(id);
+            if(order==null)
             {
-                return new ErrorDataResult<>("Siparis Bulunamadi");
+                return new ErrorDataResult<>("Order not found.");
             }
-            return new SuccessDataResult<>(islem,"Islem basarili");
+            return new SuccessDataResult<>(order,"Order found.");
         });
     }
     @Override
-    public Future<DataResult< List<Map<String,Object>>>> getAllOrders() {
+    public Future<DataResult<List<Map<String,Object>>>> getAllOrders() {
 
      return executorService.submit(() -> {
            List<Map<String,Object>> orders=orderDao.getAllOrders();
            if (orders.isEmpty())
            {
-               return new ErrorDataResult<>("Siparis bulunamadi.");
+               return new ErrorDataResult<>("Order not found.");
            }
            else
            {
-               return new SuccessDataResult<>(orders,"Islem basarili");
+               return new SuccessDataResult<>(orders,"Orders listed");
            }
        });
     }
@@ -56,15 +56,11 @@ public class OrderManager implements OrderService{
             Object savedOrderId =orderDao.saveOrder(order);
             if (savedOrderId.equals(0))
             {
-                return new ErrorDataResult<>("Kaydetme islemi basarisiz");
-            }
-            else if(savedOrderId.equals(1))
-            {
-                return new SuccessDataResult<>("Kaydetme islemi yapildi fakat bir terslik var.");
+                return new ErrorDataResult<>("Not saved");
             }
             else
             {
-                return new SuccessDataResult<>(savedOrderId,"Kaydetme islemi basarili");
+                return new SuccessDataResult<>(savedOrderId,"Saved successfully");
             }
         });
 
@@ -75,7 +71,6 @@ public class OrderManager implements OrderService{
         return executorService.submit(()->{
             int rowsAffected=0;
             String message;
-
             String customerId=order.getString("customer_id");
             int freight=order.getInt("freight");
 
@@ -99,12 +94,12 @@ public class OrderManager implements OrderService{
             }
             if (rowsAffected ==0)
             {
-                message="Guncelleme islemi basarisiz.";
+                message="Not updated";
                 return new ErrorResult(message);
             }
             else
             {
-                message="Basariyla guncellendi";
+                message="Updated successfuly";
                 return new SuccesResult(message);
             }
 
@@ -118,12 +113,12 @@ public class OrderManager implements OrderService{
             String message;
             if (rowsAffected ==0)
             {
-                message="Silme islemi basarisiz.";
+                message="Not deleted";
                 return new ErrorResult(message);
             }
             else
             {
-                message="Silindi.";
+                message="Order deleted";
                 return new SuccesResult(message);
             }
         });
