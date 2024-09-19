@@ -1,6 +1,6 @@
-package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.business.order;
+package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.business;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.core.result.*;
-import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.order.OrderDao;
+import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.dataAccess.data.repo.ObjectDao;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.exceptions.CustomerFreightCapacities;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.exceptions.OrderFreightOverflowException;
 import org.json.JSONObject;
@@ -12,9 +12,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Service
-public class OrderManager implements OrderService{
+public class OrderManager implements OrderService {
     @Autowired
-    private OrderDao orderDao;
+    private ObjectDao orderDao;
 
     private final ExecutorService executorService=
             Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()*2);
@@ -24,7 +24,7 @@ public class OrderManager implements OrderService{
     public Future<DataResult<Map<String, Object>>> getOrderById(Object id)
     {
         return executorService.submit(()->{
-            Map<String, Object> order=orderDao.getOrderById(id);
+            Map<String, Object> order=orderDao.getObjectById(id);
             if(order==null)
             {
                 return new ErrorDataResult<>("Order not found.");
@@ -36,7 +36,7 @@ public class OrderManager implements OrderService{
     public Future<DataResult<List<Map<String,Object>>>> getAllOrders() {
 
      return executorService.submit(() -> {
-           List<Map<String,Object>> orders=orderDao.getAllOrders();
+           List<Map<String,Object>> orders=orderDao.getAllObjects();
            if (orders.isEmpty())
            {
                return new ErrorDataResult<>("Order not found.");
@@ -53,7 +53,7 @@ public class OrderManager implements OrderService{
 
         return executorService.submit(()->{
             // Kaydedilen Objenin ID sini donduruyor.
-            Object savedOrderId =orderDao.saveOrder(order);
+            Object savedOrderId =orderDao.saveObject(order);
             if (savedOrderId.equals(0))
             {
                 return new ErrorDataResult<>("Not saved");
@@ -85,7 +85,7 @@ public class OrderManager implements OrderService{
                         throw OrderFreightOverflowException.checkCustomerFreight(customerId,freight);
                     }
                     else
-                        rowsAffected=orderDao.updateOrder(order);
+                        rowsAffected=orderDao.updateObject(order);
                 }
             }
             catch (OrderFreightOverflowException | IllegalArgumentException ea)
@@ -109,7 +109,7 @@ public class OrderManager implements OrderService{
     @Override
     public Future<Result> deleteOrderById(int id) {
         return executorService.submit(()->{
-            int rowsAffected=orderDao.deleteOrderById(id);
+            int rowsAffected=orderDao.deleteObjectById(id);
             String message;
             if (rowsAffected ==0)
             {

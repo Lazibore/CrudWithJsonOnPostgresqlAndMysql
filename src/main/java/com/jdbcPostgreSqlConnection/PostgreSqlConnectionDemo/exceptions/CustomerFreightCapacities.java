@@ -15,7 +15,6 @@ public enum CustomerFreightCapacities {
     CustomerFreightCapacities(int freight) {
         this.freight=freight;
     }
-
     public int getFreight() {
         return freight;
     }

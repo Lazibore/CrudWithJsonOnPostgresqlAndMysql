@@ -1,4 +1,4 @@
-package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.business.order;
+package com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.business;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.core.result.DataResult;
 import com.jdbcPostgreSqlConnection.PostgreSqlConnectionDemo.core.result.Result;
 import org.json.JSONObject;

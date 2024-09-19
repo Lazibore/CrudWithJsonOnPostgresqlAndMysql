@@ -5,6 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 public interface ConnectionService {
-   PreparedStatement  getPreparedStatement(String query, DataBase dataBase);
-   Statement  getStatement(String query,DataBase dataBase);
+   PreparedStatement  getPreparedStatement(String query);
+   Statement  getStatement(String query);
 }

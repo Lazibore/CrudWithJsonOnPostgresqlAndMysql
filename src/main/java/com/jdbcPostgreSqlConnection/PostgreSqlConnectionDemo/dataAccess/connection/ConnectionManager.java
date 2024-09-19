@@ -5,9 +5,10 @@ import org.springframework.stereotype.Component;
 import java.sql.*;
 
 @Component
-public class ConnectionManager implements ConnectionService,Runnable {
+public class ConnectionManager implements ConnectionService {
     private static volatile ConnectionManager connectionManager=null;
     private static volatile Connection conn=null;
+    private static final DataBase dataBase=DataBase.POSTGRE_SQL;
     private ConnectionManager()
     {
 
@@ -22,8 +23,9 @@ public class ConnectionManager implements ConnectionService,Runnable {
             }
     }
 
-    public static void setConn(DataBase dataBase)
+    public static void setConn()
     {
+
         try {       
             conn = DriverManager.getConnection(dataBase.getURL(),dataBase.getUSER_NAME(),dataBase.getPWD());
         } catch (SQLException e) {
@@ -31,12 +33,12 @@ public class ConnectionManager implements ConnectionService,Runnable {
         }
 
     }
-    public static void setConnection(DataBase dataBase)
+    public static void setConnection()
     {
         ConnectionManager.setInstance();
             synchronized (ConnectionManager.class) {
                 if (conn == null) {
-                    ConnectionManager.setConn(dataBase);
+                    ConnectionManager.setConn();
                 }
                 else
                 {
@@ -45,14 +47,14 @@ public class ConnectionManager implements ConnectionService,Runnable {
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
-                    ConnectionManager.setConn(dataBase);
+                    ConnectionManager.setConn();
                 }
             }
     }
 
       @Override
-    public PreparedStatement getPreparedStatement(String query,DataBase dataBase) {
-        ConnectionManager.setConnection(dataBase);
+    public PreparedStatement getPreparedStatement(String query) {
+        ConnectionManager.setConnection();
         PreparedStatement preparedStatement =null;
         try {
 
@@ -63,8 +65,8 @@ public class ConnectionManager implements ConnectionService,Runnable {
         }
     }
     @Override
-    public Statement getStatement(String query,DataBase dataBase) {
-        ConnectionManager.setConnection(dataBase);
+    public Statement getStatement(String query) {
+        ConnectionManager.setConnection();
         Statement statement =null;
         try {
             statement = conn.createStatement();
@@ -72,10 +74,5 @@ public class ConnectionManager implements ConnectionService,Runnable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void run() {
-
     }
 }
